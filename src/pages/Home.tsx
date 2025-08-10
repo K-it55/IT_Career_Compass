@@ -1,9 +1,8 @@
 const Home = () => {
   return (
-    <div>
-      <h1>ITキャリア支援サイトへようこそ！</h1>
+    <div className="home-container">
+      <h1>ITキャリア羅針盤サイト</h1>
       <p>このサイトでは、あなたのITキャリアをサポートします。</p>
-      {/* 他のホームページコンテンツを追加 */}
     </div>
   );
 };

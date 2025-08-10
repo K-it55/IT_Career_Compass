@@ -1,7 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Home from './pages/Home';
 import AptitudeTest from './pages/AptitudeTest';
-import './App.css'; // スタイルシートをインポート
+import './App.css'; 
+import './AptitudeTest.css'; 
 
 function App() {
   return (

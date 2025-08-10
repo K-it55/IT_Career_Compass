@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { questions } from '../data/questions';
-import { jobData } from '../data/jobData'; // jobDataをインポート
+import { jobData } from '../data/jobData';
 
 type ResultScores = {
   frontend: number;
   backend: number;
   infra: number;
+  security: number;
   pm: number;
   data: number;
-  designer: number;
 };
 
 const AptitudeTest = () => {
@@ -17,9 +17,9 @@ const AptitudeTest = () => {
     frontend: 0,
     backend: 0,
     infra: 0,
+    security: 0,
     pm: 0,
     data: 0,
-    designer: 0,
   });
   const [bestMatch, setBestMatch] = useState('');
 
@@ -28,9 +28,9 @@ const AptitudeTest = () => {
       frontend: prevScores.frontend + selectedScores.frontend,
       backend: prevScores.backend + selectedScores.backend,
       infra: prevScores.infra + selectedScores.infra,
+      security: prevScores.security + selectedScores.security,
       pm: prevScores.pm + selectedScores.pm,
       data: prevScores.data + selectedScores.data,
-      designer: prevScores.designer + selectedScores.designer,
     }));
 
     if (currentQuestionIndex < questions.length - 1) {
@@ -59,7 +59,6 @@ const AptitudeTest = () => {
   return (
     <div className="aptitude-test-container">
       {bestMatch ? (
-        // 診断結果と詳細を表示
         <div className="result-container">
           <h2>診断結果</h2>
           <h3>あなたに最も向いているのは「{jobData[bestMatch as keyof typeof jobData].name}」です！</h3>
@@ -77,7 +76,6 @@ const AptitudeTest = () => {
           </div>
         </div>
       ) : (
-        // 質問表示
         <div>
           <h2>IT適職診断</h2>
           <p>{currentQuestion.text}</p>

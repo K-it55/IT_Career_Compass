@@ -1,45 +1,70 @@
-/* src/AptitudeTest.css */
+/* アプリケーション全体のコンテナのスタイル */
 .aptitude-test-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
   max-width: 600px;
   margin: 40px auto;
   padding: 20px;
-  border: 1px solid #ccc;
+  background-color: #ffffff;
   border-radius: 8px;
-  text-align: center;
 }
 
+.aptitude-test-container h2 {
+  color: blue;
+}
+
+.aptitude-test-container p {
+  font-size: 1.1em;
+  color: blue;
+  margin-bottom: 20px;
+}
+
+/* 質問の選択肢を格納するコンテナのスタイル */
 .options-container {
-  margin-top: 20px;
+  display: flex; /* ボタンを柔軟に配置するためのフレックスボックス */
+  flex-direction: column; /* これがボタンを縦並びにします */
+  gap: 15px; /* ボタン間の間隔を空けます */
+  width: 100%; /* コンテナの幅を100%に設定 */
+  align-items: center; /* 子要素（ボタン）を中央に配置します */
 }
 
+/* 選択肢ボタン自体のスタイル */
 .options-container button {
   padding: 10px 20px;
   margin: 5px;
+  color: blue; /* ボタンの文字色 */
+  background-color: #ffffff; /* ボタンの背景色 */ 
   border: none;
-  background-color: #007bff;
-  color: white;
   cursor: pointer;
   border-radius: 5px;
 }
 
 .options-container button:hover {
-  background-color: #0056b3;
+  background-color: #e0e2e5;  /* ホバー時に少し暗くする */
+  border-color: #a0a0a0; /* ホバー時に枠線の色を変える */
+  transform: translateY(-2px); /* ホバー時に少し上に移動するエフェクト */
 }
 
+/* 診断結果のスタイル */
 .result-container {
-  text-align: left; /* 結果のテキストを左寄せにする */
+  text-align: left;
+  width: 100%;
+  max-width: 600px;
 }
 
 .job-details {
   margin-top: 20px;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: #e9ecef;
   border-radius: 8px;
 }
 
 .job-details h4 {
   border-bottom: 2px solid #007bff;
   padding-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 .job-details ul {
@@ -48,8 +73,9 @@
 }
 
 .job-details li {
-  background-color: #e9ecef;
-  padding: 10px;
-  margin-bottom: 8px;
+  background-color: #f8f9fa;
+  padding: 12px;
+  margin-bottom: 10px;
   border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
