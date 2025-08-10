@@ -25,3 +25,31 @@
 .options-container button:hover {
   background-color: #0056b3;
 }
+
+.result-container {
+  text-align: left; /* 結果のテキストを左寄せにする */
+}
+
+.job-details {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.job-details h4 {
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 5px;
+}
+
+.job-details ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.job-details li {
+  background-color: #e9ecef;
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 5px;
+}

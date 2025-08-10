@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { questions } from '../data/questions';
+import { jobData } from '../data/jobData'; // jobDataをインポート
 
 type ResultScores = {
   frontend: number;
@@ -20,7 +21,7 @@ const AptitudeTest = () => {
     data: 0,
     designer: 0,
   });
-  const [result, setResult] = useState('');
+  const [bestMatch, setBestMatch] = useState('');
 
   const handleAnswer = (selectedScores: ResultScores) => {
     setScores((prevScores) => ({
@@ -32,7 +33,6 @@ const AptitudeTest = () => {
       designer: prevScores.designer + selectedScores.designer,
     }));
 
-    // questions.length が自動的に更新される
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
@@ -41,38 +41,43 @@ const AptitudeTest = () => {
   };
 
   const calculateResult = () => {
-    let bestMatch = '';
+    let bestJob = '';
     let maxScore = -1;
 
     for (const job in scores) {
       if (scores[job as keyof ResultScores] > maxScore) {
         maxScore = scores[job as keyof ResultScores];
-        bestMatch = job;
+        bestJob = job;
       }
     }
 
-    const jobNames: { [key: string]: string } = {
-      frontend: 'フロントエンドエンジニア',
-      backend: 'バックエンドエンジニア',
-      infra: 'インフラエンジニア',
-      pm: 'ITコンサルタント／プロジェクトマネージャー',
-      data: 'データサイエンティスト',
-      designer: 'Webデザイナー',
-    };
-
-    setResult(`あなたに最も向いているのは「${jobNames[bestMatch]}」です！`);
+    setBestMatch(bestJob);
   };
 
   const currentQuestion = questions[currentQuestionIndex];
 
   return (
     <div className="aptitude-test-container">
-      {result ? (
-        <div>
+      {bestMatch ? (
+        // 診断結果と詳細を表示
+        <div className="result-container">
           <h2>診断結果</h2>
-          <p>{result}</p>
+          <h3>あなたに最も向いているのは「{jobData[bestMatch as keyof typeof jobData].name}」です！</h3>
+          
+          <div className="job-details">
+            <h4>職種説明</h4>
+            <p>{jobData[bestMatch as keyof typeof jobData].description}</p>
+            
+            <h4>学習ロードマップ</h4>
+            <ul>
+              {jobData[bestMatch as keyof typeof jobData].roadmap.map((step, index) => (
+                <li key={index}>{step}</li>
+              ))}
+            </ul>
+          </div>
         </div>
       ) : (
+        // 質問表示
         <div>
           <h2>IT適職診断</h2>
           <p>{currentQuestion.text}</p>
