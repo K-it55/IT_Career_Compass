@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { questions } from '../data/questions';
 import { jobData } from '../data/jobData';
+import ChartComponent from '../components/ChartComponent';
 
 type ResultScores = {
   frontend: number;
   backend: number;
   infra: number;
   security: number;
-  pm: number;
   data: number;
+  pm: number;
 };
 
 const AptitudeTest = () => {
@@ -18,8 +19,8 @@ const AptitudeTest = () => {
     backend: 0,
     infra: 0,
     security: 0,
-    pm: 0,
     data: 0,
+    pm: 0,
   });
   const [bestMatch, setBestMatch] = useState('');
 
@@ -29,8 +30,8 @@ const AptitudeTest = () => {
       backend: prevScores.backend + selectedScores.backend,
       infra: prevScores.infra + selectedScores.infra,
       security: prevScores.security + selectedScores.security,
-      pm: prevScores.pm + selectedScores.pm,
       data: prevScores.data + selectedScores.data,
+      pm: prevScores.pm + selectedScores.pm,
     }));
 
     if (currentQuestionIndex < questions.length - 1) {
@@ -61,6 +62,7 @@ const AptitudeTest = () => {
       {bestMatch ? (
         <div className="result-container">
           <h2>診断結果</h2>
+          <ChartComponent scores={scores} />
           <h3>あなたに最も向いているのは「{jobData[bestMatch as keyof typeof jobData].name}」です！</h3>
           
           <div className="job-details">
