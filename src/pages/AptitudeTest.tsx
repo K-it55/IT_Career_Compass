@@ -22,7 +22,7 @@ const AptitudeTest = () => {
     data: 0,
     pm: 0,
   });
-  const [bestMatch, setBestMatch] = useState('');
+  const [bestMatches, setBestMatches] = useState<string[]>([]); // 複数の職種を格納する配列に変更
 
   const handleAnswer = (selectedScores: ResultScores) => {
     setScores((prevScores) => ({
@@ -42,42 +42,71 @@ const AptitudeTest = () => {
   };
 
   const calculateResult = () => {
-    let bestJob = '';
-    let maxScore = -1;
+  const scoresArray = Object.entries(scores); // スコアを [ ['frontend', 50], ['backend', 50], ... ] の配列に変換
 
-    for (const job in scores) {
-      if (scores[job as keyof ResultScores] > maxScore) {
-        maxScore = scores[job as keyof ResultScores];
-        bestJob = job;
-      }
-    }
+  // 配列から最高点を取得
+  const maxScore = scoresArray.reduce((max, [_, score]) => {
+    return score > max ? score : max;
+  }, -1);
 
-    setBestMatch(bestJob);
-  };
+  // 最高点と同じスコアを持つ職種だけをフィルタリング
+  const bestJobs = scoresArray
+    .filter(([_, score]) => score === maxScore)
+    .map(([job, _]) => job);
+
+  setBestMatches(bestJobs);
+};
+
 
   const currentQuestion = questions[currentQuestionIndex];
 
   return (
     <div className="aptitude-test-container">
-      {bestMatch ? (
+      {bestMatches.length > 0 ? ( // 診断が完了したら結果を表示
         <div className="result-container">
           <h2>診断結果</h2>
           <ChartComponent scores={scores} />
-          <h3>あなたに最も向いているのは「{jobData[bestMatch as keyof typeof jobData].name}」です！</h3>
-          
-          <div className="job-details">
-            <h4>職種説明</h4>
-            <p>{jobData[bestMatch as keyof typeof jobData].description}</p>
-            
-            <h4>学習ロードマップ</h4>
-            <ul>
-              {jobData[bestMatch as keyof typeof jobData].roadmap.map((step, index) => (
-                <li key={index}>{step}</li>
-              ))}
-            </ul>
-          </div>
+          {bestMatches.length === 1 ? (
+            // 最高点が1つだけの場合
+            <>
+              <h3>あなたに最も向いているのは「{jobData[bestMatches[0] as keyof typeof jobData].name}」です！</h3>
+              <div className="job-details">
+                <h4>職種説明</h4>
+                <p>{jobData[bestMatches[0] as keyof typeof jobData].description}</p>
+                <h4>学習ロードマップ</h4>
+                <ul>
+                  {jobData[bestMatches[0] as keyof typeof jobData].roadmap.map((step, index) => (
+                    <li key={index}>{step}</li>
+                  ))}
+                </ul>
+              </div>
+            </>
+          ) : (
+            // 最高点が複数ある場合
+            <>
+              <h3>あなたの最高点は同点でした！以下の職種が向いている可能性があります。</h3>
+              <div className="job-details">
+                {bestMatches.map((jobKey, index) => {
+                  const jobDetail = jobData[jobKey as keyof typeof jobData];
+                  return (
+                    <div key={index}>
+                      <h4>{jobDetail.name}</h4>
+                      <p>{jobDetail.description}</p>
+                      <h5>学習ロードマップ</h5>
+                      <ul>
+                        {jobDetail.roadmap.map((step, stepIndex) => (
+                          <li key={stepIndex}>{step}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  );
+                })}
+              </div>
+            </>
+          )}
         </div>
       ) : (
+        // 診断中の画面
         <div>
           <h2>IT適職診断</h2>
           <p>{currentQuestion.text}</p>
